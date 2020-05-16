@@ -14,13 +14,18 @@
     shiny::checkboxInput("kidney","History of Kidney Disease"),
     shiny::actionButton("calculate","Calculate Risk"),
     
-    hr(),
+    hr()
 
   ),
   
   mainPanel(
-  shiny::tableOutput("data"),
-  shiny::textOutput("risk")
+    shiny::tableOutput("data"),
+    shiny::textOutput("risk"),
+    shinydashboard::box(
+      status = "primary", solidHeader = TRUE,
+      width = 12,
+      shiny::HTML("<br>The evidence for this prediction model can be explored at: <a href=\"https://data.ohdsi.org/Covid19PredictingSimpleModels/\">Link</a>"),
+      shiny::HTML("<br>These models should NOT considered as a replacement for advice from medical professionals.")
+    )
   )
 )
-# )
