@@ -71,7 +71,7 @@ function(input, output, session) {
       
       if(input$model == 'Hospitalization'){
         inputData$data <- data.frame(
-          Intercept = -50,
+          Intercept = 20, #updated to make scale positive
           age = ageCalc(input$age, 'Hospitalization'),
           sex = ifelse(input$sex == "Male",3,0),
           cancer = input$cancer * 2,
@@ -84,7 +84,7 @@ function(input, output, session) {
         )
       } else if (input$model == 'Intensive Care'){
         inputData$data <- data.frame(
-          Intercept = -56, # this is wrong!
+          Intercept = 4, #updated to make scale positive
           age = ageCalc(input$age, 'Intensive Care'),
           sex = ifelse(input$sex == "Male",4,0),
           cancer = input$cancer * 1,
@@ -97,7 +97,7 @@ function(input, output, session) {
         )
       } else{
         inputData$data <- data.frame(
-          Intercept = -66, # need to add this
+          Intercept = 4, #updated to make scale positive
           age = ageCalc(input$age, 'Death'),
           sex = ifelse(input$sex == "Male",4,0),
           cancer = input$cancer * 3,
@@ -111,7 +111,7 @@ function(input, output, session) {
       }
       
       
-      total <- rowSums(inputData$data)
+      total <- rowSums(inputData$data) - 70 #subtract the 70 we used to make positive
       inputData$data$risk <- 1/(1+exp(-total/10)) *100
     })
     
@@ -152,13 +152,13 @@ function(input, output, session) {
             ))
           }
           
-          observeEvent(input$RiskInfo, {
+          shiny::observeEvent(input$RiskInfo, {
             showInfoBox("Risk", "html/Risk.html")
           })
-          observeEvent(input$EvidenceInfo, {
+          shiny::observeEvent(input$EvidenceInfo, {
             showInfoBox("Evidence", "html/Evidence.html")
           })
-          observeEvent(input$AboutInfo, {
+          shiny::observeEvent(input$AboutInfo, {
             showInfoBox("About", "html/About.html")
           })
 }
