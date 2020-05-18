@@ -22,9 +22,9 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                     
                                     shinydashboard::dashboardSidebar(
                                       shinydashboard::sidebarMenu(
-                                        addInfo(shinydashboard::menuItem("Calculate Risk", tabName = "Risk", icon = shiny::icon("home")), "RiskInfo"),
-                                        addInfo(shinydashboard::menuItem("Evidence", tabName = "Evidence", icon = shiny::icon("table")), "EvidenceInfo"),
-                                        addInfo(shinydashboard::menuItem("About", tabName = "About", icon = shiny::icon("bar-chart")), "AboutInfo")
+                                        addInfo(shinydashboard::menuItem("Calculate Risk", tabName = "Risk", icon = shiny::icon("heartbeat")), "RiskInfo"),
+                                        addInfo(shinydashboard::menuItem("Evidence", tabName = "Evidence", icon = shiny::icon("search")), "EvidenceInfo"),
+                                        addInfo(shinydashboard::menuItem("About", tabName = "About", icon = shiny::icon("info-circle")), "AboutInfo")
                                       )
                                     ),
                                     
