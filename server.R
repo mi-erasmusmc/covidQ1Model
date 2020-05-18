@@ -77,8 +77,8 @@ function(input, output, session) {
           cancer = input$cancer * 2,
           copd = input$copd * 6,
           diabetes = input$diabetes * 3,
-          hd = input$hd * 4,
-          hl = input$hl * -3,
+          'heart disease' = input$hd * 4,
+          hyperlipidemia = input$hl * -3,
           hypertension = input$hypertension * 3,
           kidney = input$kidney * 2
         )
@@ -90,8 +90,8 @@ function(input, output, session) {
           cancer = input$cancer * 1,
           copd = input$copd * 6,
           diabetes = input$diabetes * 4,
-          hd = input$hd * 4,
-          hl = input$hl * -4,
+          'heart disease' = input$hd * 4,
+          hyperlipidemia = input$hl * -4,
           hypertension = input$hypertension * 5,
           kidney = input$kidney * 4
         )
@@ -103,8 +103,8 @@ function(input, output, session) {
           cancer = input$cancer * 3,
           copd = input$copd * 4,
           diabetes = input$diabetes * 2,
-          hd = input$hd * 2,
-          hl = input$hl * -7,
+          'heart disease' = input$hd * 2,
+          hyperlipidemia = input$hl * -7,
           hypertension = input$hypertension * 3,
           kidney = input$kidney * 2
         )
@@ -130,7 +130,9 @@ function(input, output, session) {
           #contribution of risk
           output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(inputData$data)[!names(inputData$data)%in%c('risk','Intercept')], 
                                                                        y = names(inputData$data)[!names(inputData$data)%in%c('risk','Intercept')], 
-                                                              type = 'bar', orientation = 'h'))
+                                                                       color = as.double(inputData$data)[!names(inputData$data)%in%c('risk','Intercept')] >0,
+                                                                       colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
+                                                                       type = 'bar', orientation = 'h', showlegend = FALSE))
           
           
           

@@ -33,6 +33,8 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                         
                                         shinydashboard::tabItem(tabName = "Risk",                              
                                                                 sidebarPanel(
+                                                                  shiny::p('Use this tool to calculate the risk of COVID outcomes: '),
+                                                                  shiny::p(' '),
                                                                   shiny::selectInput("model","Predict risk of:", choices = c("Hospitalization", "Intensive Care", 'Death')),
                                                                   shiny::sliderInput("age", "Age:",
                                                                               min = 18, max = 94,
@@ -52,9 +54,23 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                                                 ),
                                                                 
                                                                 mainPanel(
-                                                                  shiny::tableOutput("data"),
-                                                                  shiny::textOutput("risk"),
-                                                                  plotly::plotlyOutput("contributions"),
+                                                                  #shiny::tableOutput("data"),
+                                                                  #shinydashboard::box(status = "warning", width = 12,
+                                                                  #shiny::textOutput("risk"),
+                                                                  #),
+                                                                  conditionalPanel('input.calculate', 
+                                                                  shinydashboard::box(width = 12,
+                                                                                      title = tagList(shiny::icon("tachometer-alt"),"Predicted Risk"), status = "warning", solidHeader = TRUE,
+                                                                                      shiny::textOutput("risk")
+                                                                  )),
+                                                                  
+                                                                  conditionalPanel('input.calculate', {
+                                                                    shinydashboard::box(width = 12,
+                                                                                        title = tagList(shiny::icon("bar-chart"),"Contribution"), status = "info", solidHeader = TRUE,
+                                                                                        
+                                                                    plotly::plotlyOutput("contributions"))}
+                                                                    
+                                                                    ),
                                                                   shinydashboard::box(
                                                                     status = "primary", solidHeader = TRUE,
                                                                     width = 12,
