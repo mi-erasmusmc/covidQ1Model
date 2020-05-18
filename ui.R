@@ -74,7 +74,7 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                                                   shinydashboard::box(
                                                                     status = "primary", solidHeader = TRUE,
                                                                     width = 12,
-                                                                    shiny::HTML("<br>The evidence for this prediction model can be explored at: <a href=\"https://data.ohdsi.org/Covid19PredictingSimpleModels/\">Link</a>"),
+                                                                    shiny::HTML("<br>The evidence for this prediction model can be explored at: <a href=\"https://data.ohdsi.org/Covid19PredictingHospitalizationInFluPatients//\">Link</a>"),
                                                                     shiny::HTML("<br>These models should NOT considered as a replacement for advice from medical professionals.")
                                                                   )
                                                                 )
@@ -83,14 +83,15 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                         shinydashboard::tabItem(tabName = "Evidence",
                                                                 shiny::h2("Information"),
                                                                 shiny::p("Add info about the study with paper and shiny result links."),
-                                                                shiny::a("Link 1", href = 'https://', target='_blank'),
-                                                                shiny::a("Link 2", href = 'https://', target='_blank')
+                                                                shiny::a("Paper", href = 'https://', target='_blank'),
+                                                                shiny::p(' '),
+                                                                shiny::a("Result App", href = 'https://data.ohdsi.org/Covid19PredictingHospitalizationInFluPatients/', target='_blank')
                                         ),
                                         
                                         shinydashboard::tabItem(tabName = "About",
                                                                 shiny::h2("About OHDSI"),
                                                                 shiny::p("Add info about OHDSI here with links to website"),
-                                                                shiny::a("Link 1", href = 'https://', target='_blank')
+                                                                shiny::a("OHDSI website", href = 'https://www.ohdsi.org', target='_blank')
                                         )
                                         
                                       ) # end  tabs
