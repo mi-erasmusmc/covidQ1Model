@@ -57,15 +57,15 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                                                   #shinydashboard::box(status = "warning", width = 12,
                                                                   #shiny::textOutput("risk"),
                                                                   #),
-                                                                  conditionalPanel('input.calculate', 
-                                                                  shinydashboard::box(width = 12,
-                                                                                      title = tagList(shiny::icon("tachometer-alt"),"Predicted Risk"), status = "warning", solidHeader = TRUE,
-                                                                                      shiny::textOutput("risk")
-                                                                  )),
+                                                                  # conditionalPanel('input.calculate', 
+                                                                  # shinydashboard::box(width = 12,
+                                                                  #                     title = tagList(shiny::icon("tachometer-alt"),"Predicted Risk"), status = "warning", solidHeader = TRUE,
+                                                                  #                     shiny::textOutput("risk")
+                                                                  # )),
                                                                   
                                                                   conditionalPanel('input.calculate', {
                                                                     shinydashboard::box(width = 12,
-                                                                                        title = tagList(shiny::icon("bar-chart"),"Contribution"), status = "info", solidHeader = TRUE,
+                                                                                        title = tagList(shiny::icon("bar-chart"),"Predicted Risk (%)"), status = "info", solidHeader = TRUE,
                                                                                         
                                                                     plotly::plotlyOutput("contributions"))}
                                                                     
