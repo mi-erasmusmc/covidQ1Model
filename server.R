@@ -110,7 +110,15 @@ function(input, output, session) {
       totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 70})) #subtract the 70 we used to make positive
       
       riskValues$data <- data.frame(names = c('Death', 'Hospitalization','Hospitalization with Intensive Care or Death'),
-                                        values = 1/(1+exp(-totals/10)) *100)
+                                        values = 1/(1+exp(-totals/10)) *100, stringsAsFactors = F)
+      #sort by values (descending) probably a better way to do this...
+      riskValues$data$names <- factor(riskValues$data$names, 
+                                      levels = unique(riskValues$data$names)[order(riskValues$data$values, 
+                                                                                   decreasing = FALSE)])
+      #moved this here because there is a warning if done in plotting
+      riskValues$data$values <- round(riskValues$data$values, 1)
+
+      
     })
     
           
@@ -127,9 +135,11 @@ function(input, output, session) {
           #contribution of risk
           output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(riskValues$data$values), 
                                                                        y = riskValues$data$names, 
+                                                                       #weird warning but doesnt seem to impact the function
+                                                                       text = riskValues$data$values, textposition = 'auto', insidetextfont = list(size=20, color = 'black'),
                                                                        #color = as.double(riskValues$data$values),
                                                                        #colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
-                                                                       type = 'bar', orientation = 'h', showlegend = FALSE))
+                                                                       type = 'bar', orientation = 'h', showlegend = F, ))
           
           
           
@@ -149,9 +159,9 @@ function(input, output, session) {
             ))
           }
           
-          shiny::observeEvent(input$RiskInfo, {
-            showInfoBox("Risk", "html/Risk.html")
-          })
+          # shiny::observeEvent(input$RiskInfo, {
+          #   showInfoBox("Risk", "html/Risk.html")
+          # })
           shiny::observeEvent(input$EvidenceInfo, {
             showInfoBox("Evidence", "html/Evidence.html")
           })
