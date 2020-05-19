@@ -35,7 +35,6 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                                                 sidebarPanel(
                                                                   shiny::p('Use this tool to calculate the risk of COVID outcomes: '),
                                                                   shiny::p(' '),
-                                                                  shiny::selectInput("model","Predict risk of:", choices = c("Hospitalization", "Intensive Care", 'Death')),
                                                                   shiny::sliderInput("age", "Age:",
                                                                               min = 18, max = 94,
                                                                               value = 50),

@@ -63,14 +63,12 @@ function(input, output, session) {
       
     }
     
-    inputData  <- shiny::reactiveValues(data = NULL, model = NULL)
+    inputData  <- shiny::reactiveValues(dataHosp = NULL, dataIntense = NULL, dataDeath = NULL)
+    riskValues  <- shiny::reactiveValues(data = NULL)
     
     shiny::observeEvent(input$calculate, {
       
-      inputData$model<- input$model
-      
-      if(input$model == 'Hospitalization'){
-        inputData$data <- data.frame(
+        inputData$dataHosp <- data.frame(
           Intercept = 20, #updated to make scale positive
           age = ageCalc(input$age, 'Hospitalization'),
           sex = ifelse(input$sex == "Male",3,0),
@@ -82,8 +80,8 @@ function(input, output, session) {
           hypertension = input$hypertension * 3,
           kidney = input$kidney * 2
         )
-      } else if (input$model == 'Intensive Care'){
-        inputData$data <- data.frame(
+        
+        inputData$dataIntense  <- data.frame(
           Intercept = 4, #updated to make scale positive
           age = ageCalc(input$age, 'Intensive Care'),
           sex = ifelse(input$sex == "Male",4,0),
@@ -95,8 +93,8 @@ function(input, output, session) {
           hypertension = input$hypertension * 5,
           kidney = input$kidney * 4
         )
-      } else{
-        inputData$data <- data.frame(
+        
+        inputData$dataDeath <- data.frame(
           Intercept = 4, #updated to make scale positive
           age = ageCalc(input$age, 'Death'),
           sex = ifelse(input$sex == "Male",4,0),
@@ -108,30 +106,29 @@ function(input, output, session) {
           hypertension = input$hypertension * 3,
           kidney = input$kidney * 2
         )
-      }
+  
+      totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 70})) #subtract the 70 we used to make positive
       
-      
-      total <- rowSums(inputData$data) - 70 #subtract the 70 we used to make positive
-      inputData$data$risk <- 1/(1+exp(-total/10)) *100
+      riskValues$data <- data.frame(names = c('Death', 'Hospitalization','Hospitalization with Intensive Care or Death'),
+                                        values = 1/(1+exp(-totals/10)) *100)
     })
     
           
-          output$data <- shiny::renderTable({data = inputData$data})
           riskText <- function(x1, model){
             if(!is.null(x1)){
               paste0("The patient's risk of ",model," is: ", round(x = x1, digits = 1), "%")}
             else{NULL}
             }
-          output$risk <- shiny::renderText(riskText(inputData$data$risk, inputData$model))
+          output$risk <- shiny::renderText(riskText(riskValues$data[1,2], riskValues$data[1,1]))
           
           
           
 
           #contribution of risk
-          output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(inputData$data)[!names(inputData$data)%in%c('risk','Intercept')], 
-                                                                       y = names(inputData$data)[!names(inputData$data)%in%c('risk','Intercept')], 
-                                                                       color = as.double(inputData$data)[!names(inputData$data)%in%c('risk','Intercept')] >0,
-                                                                       colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
+          output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(riskValues$data$values), 
+                                                                       y = riskValues$data$names, 
+                                                                       #color = as.double(riskValues$data$values),
+                                                                       #colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
                                                                        type = 'bar', orientation = 'h', showlegend = FALSE))
           
           
