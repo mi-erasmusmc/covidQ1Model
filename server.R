@@ -117,6 +117,10 @@ function(input, output, session) {
                                                                                    decreasing = FALSE)])
       #moved this here because there is a warning if done in plotting
       riskValues$data$values <- round(riskValues$data$values, 1)
+      
+      riskValues$data$color <- cut(riskValues$data$values,
+                    breaks = c(0,10, 15, 100),
+                    labels = c("#B9BAC3", "#ff9900", "#EC6965"))
 
       
     })
@@ -136,7 +140,8 @@ function(input, output, session) {
           output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(riskValues$data$values), 
                                                                        y = riskValues$data$names, 
                                                                        #weird warning but doesnt seem to impact the function
-                                                                       text = riskValues$data$values, textposition = 'auto', insidetextfont = list(size=20, color = 'black'),
+                                                                       text = paste0(riskValues$data$values,'%'), textposition = 'auto', insidetextfont = list(size=20, color = 'black'),
+                                                                       color = ~I(riskValues$data$color),
                                                                        #color = as.double(riskValues$data$values),
                                                                        #colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
                                                                        type = 'bar', orientation = 'h', showlegend = F, ))
