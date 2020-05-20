@@ -81,7 +81,7 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                         
                                         shinydashboard::tabItem(tabName = "Evidence",
                                                                 shiny::h2("Information"),
-                                                                shiny::p("Add info about the study with paper and shiny result links."),
+                                                                shiny::p("The Observational Health Data Sciences and Informatics (OHDSI) international community is hosting a COVID-19 virtual study-a-thon this week (March 26-29) to inform healthcare decision-making in response to the current global pandemic."),
                                                                 shiny::a("Paper", href = 'https://', target='_blank'),
                                                                 shiny::p(' '),
                                                                 shiny::a("Result App", href = 'https://data.ohdsi.org/Covid19PredictingHospitalizationInFluPatients/', target='_blank')
@@ -89,7 +89,14 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                         
                                         shinydashboard::tabItem(tabName = "About",
                                                                 shiny::h2("About OHDSI"),
-                                                                shiny::p("Add info about OHDSI here with links to website"),
+                                                                
+                                                                shiny::p("Mission: Improving health by empowering a community to collaboratively generate evidence that promotes better health decisions and better care"),
+                                                                shiny::p("Vision: Creating a world in which observational research produces a comprehensive understanding of health and disease"),
+                                                                shiny::p("Values: Innovation, Reproducibility, Community, Collaboration, Openness, Beneficence"),
+                                                                shiny::p(" "),
+                                                                shiny::p("OHDSI is a multi-stakeholder, interdisciplinary collaborative to bring out the value of health data through large-scale analytics. All our solutions are open-source."),
+                                                                shiny::p("OHDSI has established an international network of researchers and observational health databases with a central coordinating center housed at Columbia University."),
+                                                                shiny::p(" "),
                                                                 shiny::a("OHDSI website", href = 'https://www.ohdsi.org', target='_blank')
                                         )
                                         
