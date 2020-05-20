@@ -7,7 +7,7 @@ function(input, output, session) {
         if(dplyr::between(age,20, 24)){ value = -4}
         if(dplyr::between(age,25, 29)){ value = -2}
         if(dplyr::between(age,30, 34)){ value = -2}
-        if(dplyr::between(age,35, 39)){ value = 3}
+        if(dplyr::between(age,35, 39)){ value = 0}
         if(dplyr::between(age,40, 44)){ value = 3}
         if(dplyr::between(age,45, 49)){ value = 6}
         if(dplyr::between(age,50, 54)){ value = 9}
@@ -106,14 +106,15 @@ function(input, output, session) {
           hypertension = input$hypertension * 3,
           kidney = input$kidney * 2
         )
-  
+      saveRDS(inputData, 'inputData.rds')
       totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 70})) #subtract the 70 we used to make positive
-      
-      riskValues$data <- data.frame(names = c('Death', 'Hospitalization','Hospitalization with Intensive Care or Death'),
+      print(totals)
+      riskValues$data <- data.frame(names = c('Hospitalization','Hospitalization with Intensive Care or Death', 'Death'),
                                         values = 1/(1+exp(-totals/10)) *100, stringsAsFactors = F)
+      print(riskValues$data)
       #sort by values (descending) probably a better way to do this...
-      riskValues$data$names <- factor(riskValues$data$names, 
-                                      levels = unique(riskValues$data$names)[order(riskValues$data$values, 
+      riskValues$data$names <- factor(riskValues$data$names,
+                                      levels = unique(riskValues$data$names)[order(riskValues$data$values,
                                                                                    decreasing = FALSE)])
       #moved this here because there is a warning if done in plotting
       riskValues$data$values <- round(riskValues$data$values, 1)
@@ -140,7 +141,7 @@ function(input, output, session) {
           output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(riskValues$data$values), 
                                                                        y = riskValues$data$names, 
                                                                        #weird warning but doesnt seem to impact the function
-                                                                       text = paste0(riskValues$data$values,'%'), textposition = 'auto', insidetextfont = list(size=20, color = 'black'),
+                                                                       text = paste0(riskValues$data$values,'%'), textposition = 'auto', insidetextfont = list(size=20, color = 'white'),
                                                                        color = ~I(riskValues$data$color),
                                                                        #color = as.double(riskValues$data$values),
                                                                        #colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
