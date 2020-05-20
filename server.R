@@ -69,7 +69,7 @@ function(input, output, session) {
     shiny::observeEvent(input$calculate, {
       
         inputData$dataHosp <- data.frame(
-          Intercept = 20, #updated to make scale positive
+          Intercept = 38, #updated to make scale positive
           age = ageCalc(input$age, 'Hospitalization'),
           sex = ifelse(input$sex == "Male",3,0),
           cancer = input$cancer * 2,
@@ -82,7 +82,7 @@ function(input, output, session) {
         )
         
         inputData$dataIntense  <- data.frame(
-          Intercept = 4, #updated to make scale positive
+          Intercept = 22, #updated to make scale positive
           age = ageCalc(input$age, 'Intensive Care'),
           sex = ifelse(input$sex == "Male",4,0),
           cancer = input$cancer * 1,
@@ -95,7 +95,7 @@ function(input, output, session) {
         )
         
         inputData$dataDeath <- data.frame(
-          Intercept = 4, #updated to make scale positive
+          Intercept = 22, #updated to make scale positive
           age = ageCalc(input$age, 'Death'),
           sex = ifelse(input$sex == "Male",4,0),
           cancer = input$cancer * 3,
@@ -107,7 +107,7 @@ function(input, output, session) {
           kidney = input$kidney * 2
         )
       saveRDS(inputData, 'inputData.rds')
-      totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 70})) #subtract the 70 we used to make positive
+      totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 88})) #subtract the 88 we used to make positive
       print(totals)
       riskValues$data <- data.frame(names = c('Hospitalization','Hospitalization with Intensive Care or Death', 'Death'),
                                         values = 1/(1+exp(-totals/10)) *100, stringsAsFactors = F)
