@@ -1,5 +1,5 @@
 function(input, output, session) {
-
+library(plotly)
     ageCalc <- function(age, model){
       
       if(model == 'Hospitalization'){
@@ -123,6 +123,7 @@ function(input, output, session) {
       riskValues$data$color <- cut(riskValues$data$values,
                     breaks = c(0,10, 15, 100),
                     labels = c("#148c76", "#e3782f","#d02038" ))
+      saveRDS(riskValues$data,"rv.rds")
 
     })
     
@@ -143,7 +144,12 @@ function(input, output, session) {
                                                                        text = paste0(riskValues$data$values,'%'), textposition = 'auto', insidetextfont = list(size=20, color = 'white'),
                                                                        color = riskValues$data$color,
                                                                        colors = levels(riskValues$data$color),
-                                                                       type = 'bar', orientation = 'h', showlegend = F))
+                                                                       type = 'bar', orientation = 'h', showlegend = F) %>% layout(
+                                                                         xaxis = list(
+                                                                           range=c(0,max(riskValues$data$values)*1.25)
+                                                                         )
+                                                                       ))
+
 
           
           # helpers
