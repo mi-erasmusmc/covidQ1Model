@@ -123,7 +123,6 @@ library(plotly)
       riskValues$data$color <- cut(riskValues$data$values,
                     breaks = c(0,10, 15, 100),
                     labels = c("#148c76", "#e3782f","#d02038" ))
-      saveRDS(riskValues$data,"rv.rds")
 
     })
     
