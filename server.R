@@ -108,51 +108,43 @@ function(input, output, session) {
         )
       saveRDS(inputData, 'inputData.rds')
       totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 88})) #subtract the 88 we used to make positive
-      print(totals)
       riskValues$data <- data.frame(names = c('Hospitalization','Hospitalization with Intensive Care or Death', 'Death'),
                                         values = 1/(1+exp(-totals/10)) *100, stringsAsFactors = F)
-      print(riskValues$data)
+      
+     
+      
       #sort by values (descending) probably a better way to do this...
       riskValues$data$names <- factor(riskValues$data$names,
                                       levels = unique(riskValues$data$names)[order(riskValues$data$values,
                                                                                    decreasing = FALSE)])
       #moved this here because there is a warning if done in plotting
       riskValues$data$values <- round(riskValues$data$values, 1)
-      
       riskValues$data$color <- cut(riskValues$data$values,
-                    breaks = c(0,10, 15, 100),
-                    labels = c("#B9BAC3", "#ff9900", "#EC6965"))
-
+                    breaks = c(0,10, 15, 50),
+                    labels = c("#148c76", "#e3782f","#d02038" ))
+      print(riskValues$data)
       
     })
     
-          
+
           riskText <- function(x1, model){
             if(!is.null(x1)){
               paste0("The patient's risk of ",model," is: ", round(x = x1, digits = 1), "%")}
             else{NULL}
             }
           output$risk <- shiny::renderText(riskText(riskValues$data[1,2], riskValues$data[1,1]))
-          
-          
+
+
           
 
           #contribution of risk
           output$contributions <- plotly::renderPlotly(plotly::plot_ly(x = as.double(riskValues$data$values), 
                                                                        y = riskValues$data$names, 
-                                                                       #weird warning but doesnt seem to impact the function
                                                                        text = paste0(riskValues$data$values,'%'), textposition = 'auto', insidetextfont = list(size=20, color = 'white'),
-                                                                       color = ~I(riskValues$data$color),
-                                                                       #color = as.double(riskValues$data$values),
-                                                                       #colors = c('TRUE'= "#0E8009", 'FALSE' = "#D30E1A"),
-                                                                       type = 'bar', orientation = 'h', showlegend = F, ))
-          
-          
-          
- 
-          
-          
-          
+                                                                       color = riskValues$data$color,
+                                                                       colors = levels(riskValues$data$color),
+                                                                       type = 'bar', orientation = 'h', showlegend = F))
+
           
           # helpers
           showInfoBox <- function(title, htmlFileName) {
