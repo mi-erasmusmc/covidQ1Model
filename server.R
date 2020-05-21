@@ -122,8 +122,7 @@ function(input, output, session) {
       riskValues$data$color <- cut(riskValues$data$values,
                     breaks = c(0,10, 15, 50),
                     labels = c("#148c76", "#e3782f","#d02038" ))
-      print(riskValues$data)
-      
+
     })
     
 
