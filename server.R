@@ -108,7 +108,8 @@ function(input, output, session) {
         )
       saveRDS(inputData, 'inputData.rds')
       totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 88})) #subtract the 88 we used to make positive
-      riskValues$data <- data.frame(names = c('Hospitalization','Hospitalization with Intensive Care or Death', 'Death'),
+      #TODO: update to match names in paper
+      riskValues$data <- data.frame(names = c('Hospitalization','Hospitalization with Intensive Services or Death', 'Death'),
                                         values = 1/(1+exp(-totals/10)) *100, stringsAsFactors = F)
       
      
