@@ -22,6 +22,7 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                     
                                     shinydashboard::dashboardSidebar(
                                       shinydashboard::sidebarMenu(
+                                        addInfo(shinydashboard::menuItem("Description", tabName = "Description", icon = shiny::icon("book")), "RiskInfo"),
                                         addInfo(shinydashboard::menuItem("Calculate Risk", tabName = "Risk", icon = shiny::icon("heartbeat")), "RiskInfo"),
                                         addInfo(shinydashboard::menuItem("Evidence", tabName = "Evidence", icon = shiny::icon("search")), "EvidenceInfo"),
                                         addInfo(shinydashboard::menuItem("About", tabName = "About", icon = shiny::icon("info-circle")), "AboutInfo")
@@ -30,6 +31,22 @@ ui <- shinydashboard::dashboardPage(skin = 'black',
                                     
                                     shinydashboard::dashboardBody(
                                       shinydashboard::tabItems(  
+                                        shinydashboard::tabItem(tabName = "Description",
+                                                                shiny::h2("Description"),
+                                                                # shiny::p("The Observational Health Data Sciences and Informatics (OHDSI) international community is hosting a COVID-19 virtual study-a-thon this week (March 26-29) to inform healthcare decision-making in response to the current global pandemic."),
+                                                                shiny::p("This calculator presents the results of a prediction study that developed 3 prediction models."),
+                                                                shiny::p("The three models predicted: requiring hospital admission (COVER-A), requiring intensive services (COVER-C), or fatality (COVER-F) in the month following COVID-19 diagnosis"),
+                                                                shiny::p(' '),
+                                                                shiny::a("Result App", href = 'https://data.ohdsi.org/Covid19PredictingHospitalizationInFluPatients/', target='_blank'),
+                                                                shiny::h3("Disclaimer"),
+                                                                shiny::p('Should not be considered Medical Advice. 
+                                                                         By using the app, you acknowledge that the content does not constitute medical advice and does not create a Healthcare Professional - Patient relationship and does not constitute medical opinion or advice.
+                                                                         Access to general information is provided for research and educational purposes only. 
+                                                                         Content is not recommended or endorsed by any doctor or healthcare provider. 
+                                                                         The information provided is not a substitute for medical or professional care, 
+                                                                         and you should not use the information in place of an appointment or the advice of your physician or other healthcare provider. 
+                                                                         You are liable or responsible for any action taken through use of information in this site.'), #Todo: add disclaimer
+                                        ),
                                         
                                         shinydashboard::tabItem(tabName = "Risk",                              
                                                                 sidebarPanel(

@@ -109,7 +109,7 @@ library(plotly)
       saveRDS(inputData, 'inputData.rds')
       totals <- unlist(lapply(inputData,  function(x){rowSums(x) - 88})) #subtract the 88 we used to make positive
       #TODO: update to match names in paper
-      riskValues$data <- data.frame(names = c('Hospitalization','Hospitalization with Intensive Services or Death', 'Death'),
+      riskValues$data <- data.frame(names = c('COVER-A','COVER-C', 'COVER-F'),
                                         values = 1/(1+exp(-totals/10)) *100, stringsAsFactors = F)
       
      
@@ -145,7 +145,7 @@ library(plotly)
                                                                        colors = levels(riskValues$data$color),
                                                                        type = 'bar', orientation = 'h', showlegend = F) %>% layout(
                                                                          xaxis = list(
-                                                                           range=c(0,max(riskValues$data$values)*1.25)
+                                                                           range=c(-0.1,max(riskValues$data$values)*1.25)
                                                                          )
                                                                        ))
 
